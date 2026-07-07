@@ -1,9 +1,12 @@
 from fastapi import APIRouter, UploadFile, File
+from fastapi.concurrency import run_in_threadpool
 from pathlib import Path
 import shutil
+import traceback
+
 from app.pipeline.video_pipeline import process_video
 
-router = APIRouter(prefix="/api", tags=["Upload"])
+router = APIRouter()
 
 UPLOAD_FOLDER = Path("app/uploads")
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
@@ -11,22 +14,32 @@ UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
 @router.post("/upload")
 async def upload_video(file: UploadFile = File(...)):
-    # Save uploaded video
+
     destination = UPLOAD_FOLDER / file.filename
 
     with open(destination, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # Create a folder for this video's frames
-    video_name = Path(file.filename).stem
-    frames_folder = UPLOAD_FOLDER / "frames" / video_name
+    try:
 
-    # Extract frames
-    result = process_video(str(destination))
+        result = await run_in_threadpool(
+            process_video,
+            str(destination)
+        )
 
-    # Return response
-    return {
-    "message": "Upload successful",
-    "filename": file.filename,
-    "pipeline": result
-}
+        return {
+            "message": "Upload successful",
+            "filename": file.filename,
+            "pipeline": result,
+        }
+
+    except Exception:
+
+        print("\n========== PIPELINE ERROR ==========")
+        traceback.print_exc()
+        print("====================================\n")
+
+        return {
+            "message": "Pipeline Failed",
+            "error": "Pipeline execution failed"
+        }

@@ -1,0 +1,11 @@
+{
+    "video_name": "demo.mp4",
+    "frames": 120,
+    "keyframes": 15,
+    "speech": "Today we are discussing Artificial Intelligence.",
+    "ocr": [
+        "Introduction",
+        "Machine Learning",
+        "Deep Learning"
+    ]
+}

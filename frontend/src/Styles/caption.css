@@ -1,0 +1,63 @@
+.caption-card{
+
+    background:rgba(17,24,39,.72);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    margin-bottom:28px;
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.35);
+
+    transition:.35s;
+
+}
+
+.caption-card:hover{
+
+    border-color:#4CC9F0;
+
+    box-shadow:
+        0 25px 60px rgba(76,201,240,.18);
+
+}
+
+.caption-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+    gap:20px;
+
+}
+
+.caption-header h2{
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+.caption-body{
+
+    color:#CBD5E1;
+
+    line-height:2;
+
+    font-size:17px;
+
+    white-space:pre-wrap;
+
+}
