@@ -1,18 +1,68 @@
+# ==========================
 # Python
+# ==========================
+backend/venv/
 venv/
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 
-# React
+# Python build files
+build/
+dist/
+*.egg-info/
+
+# ==========================
+# React / Node
+# ==========================
+frontend/node_modules/
+frontend/dist/
 node_modules/
 dist/
 
-# Environment
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================
+# Environment Variables
+# ==========================
 .env
+*.env
 
-# Uploads
-app/uploads/
+# ==========================
+# Uploads & Generated Files
+# ==========================
+backend/app/uploads/
+backend/app/uploads/audio/
+backend/app/uploads/frames/
+backend/app/uploads/keyframes/
+backend/app/uploads/reports/
+backend/app/uploads/timelines/
+backend/app/uploads/transcripts/
 
-# OS
+# ==========================
+# IDE
+# ==========================
+.vscode/
+.idea/
+
+# ==========================
+# OS Files
+# ==========================
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# ==========================
+# Testing / Cache
+# ==========================
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# ==========================
+# Misc
+# ==========================
+*.log
