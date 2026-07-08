@@ -5,27 +5,34 @@ import re
 def parse_ai_response(response: str):
     """
     Converts Gemma's response into a Python dictionary.
-
-    Handles:
-    - ```json ... ```
-    - extra text before JSON
-    - extra text after JSON
-    - validates required fields
     """
 
     if not response:
         raise ValueError("Empty AI response.")
 
+    # -----------------------------
+    # Clean Gemma Output
+    # -----------------------------
     response = response.strip()
 
-    # Remove markdown code fences
-    response = re.sub(r"^```json", "", response, flags=re.IGNORECASE)
-    response = re.sub(r"^```", "", response)
-    response = re.sub(r"```$", "", response)
+    # Remove markdown
+    response = response.replace("```json", "")
+    response = response.replace("```", "")
+
+    # Remove Gemma SentencePiece spaces
+    response = response.replace("▁", " ")
+
+    # Remove zero-width unicode characters
+    response = re.sub(r'[\u200B-\u200D\uFEFF]', '', response)
+
+    # Collapse repeated whitespace
+    response = re.sub(r"[ \t]+", " ", response)
 
     response = response.strip()
 
-    # Find JSON object
+    # -----------------------------
+    # Extract JSON
+    # -----------------------------
     start = response.find("{")
     end = response.rfind("}")
 
@@ -38,9 +45,14 @@ def parse_ai_response(response: str):
         data = json.loads(response)
 
     except json.JSONDecodeError as e:
-        raise ValueError(f"Invalid JSON returned by Gemma.\n\n{response}") from e
+        print("\n========== INVALID JSON ==========\n")
+        print(response)
+        print("\n==================================\n")
+        raise ValueError("Invalid JSON returned by Gemma.") from e
 
-    # Required keys
+    # -----------------------------
+    # Required Keys
+    # -----------------------------
     required_keys = [
         "detected_language",
         "video_category",
@@ -58,7 +70,6 @@ def parse_ai_response(response: str):
         if key not in data:
             raise ValueError(f"Missing key: {key}")
 
-    # Ensure hashtags & keywords are lists
     if not isinstance(data["hashtags"], list):
         data["hashtags"] = []
 

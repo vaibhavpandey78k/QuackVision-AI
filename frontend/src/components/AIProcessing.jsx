@@ -20,19 +20,24 @@ const pipeline = [
 ];
 
 const messages = [
-  "Watching every frame...",
-  "Understanding the story...",
-  "Listening to speech...",
-  "Reading on-screen text...",
-  "Analyzing visual context...",
-  "Generating intelligent captions...",
+  "🎬 Watching every important moment...",
+  "🎙️ Listening carefully to every spoken word...",
+  "👀 Looking beyond what meets the eye...",
+  "🧠 Understanding the complete story...",
+  "📝 Reading every important word on screen...",
+  "🎨 Matching visuals with emotions...",
+  "✨ Turning moments into meaningful captions...",
+  "🤖 Our AI team is discussing the best captions...",
+  "📖 Every great story deserves the perfect words...",
+  "☕ Great captions take a little thinking...",
+  "🚀 Almost there... polishing every detail...",
+  "🦆 Thanks for your patience. You're going to love the result!"
 ];
 
 function AIProcessing({ completed }) {
 
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState("Starting...");
-  const [seconds, setSeconds] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
 
   // Backend Progress Polling
@@ -59,18 +64,6 @@ function AIProcessing({ completed }) {
 
   }, []);
 
-  // Elapsed Timer
-  useEffect(() => {
-
-    const timer = setInterval(() => {
-
-      setSeconds((prev) => prev + 1);
-
-    }, 1000);
-
-    return () => clearInterval(timer);
-
-  }, []);
 
   // Rotating AI Messages
   useEffect(() => {
@@ -115,7 +108,7 @@ function AIProcessing({ completed }) {
           textAlign: "center",
         }}
       >
-        Analysis Complete
+        🎉 Your Story Has Been Understood
       </h1>
 
       <p
@@ -125,7 +118,7 @@ function AIProcessing({ completed }) {
           fontSize: 18,
         }}
       >
-        Opening AI Caption Studio...
+        Preparing your personalized captions...
       </p>
 
     </>
@@ -153,7 +146,7 @@ function AIProcessing({ completed }) {
       </motion.div>
 
       <h1>
-        Analyzing Your Video
+      🦆 QuackVision AI is Understanding Your Story
       </h1>
 
       <motion.p
@@ -202,17 +195,6 @@ function AIProcessing({ completed }) {
         {currentStep}
       </p>
 
-      <p
-        style={{
-          marginTop: 10,
-          textAlign: "center",
-          color: "#94A3B8",
-          fontWeight: 600,
-        }}
-      >
-        ⏱ {seconds}s elapsed
-      </p>
-
       {/* Pipeline */}
       <div className="pipeline">
 
@@ -258,11 +240,30 @@ function AIProcessing({ completed }) {
 
       <div className="estimate">
 
-        <span>Typical processing time</span>
+  <span>
+    🦆 QuackVision analyzes Speech, Vision and OCR before generating captions.
+  </span>
 
-        <strong>30–90 seconds</strong>
+  <strong>
+    Every video is understood before a single caption is written.
+  </strong>
 
-      </div>
+</div>
+    <motion.p
+  key={messageIndex + "-fact"}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+  style={{
+    marginTop: 25,
+    textAlign: "center",
+    color: "#94A3B8",
+    fontSize: 14,
+    lineHeight: 1.6,
+  }}
+>
+  💡 Every caption is created by combining speech, visual understanding and on-screen text.
+</motion.p>
 
     </div>
 

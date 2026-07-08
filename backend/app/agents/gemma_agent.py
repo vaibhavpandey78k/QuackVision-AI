@@ -7,14 +7,12 @@ MODEL = "gemma3:4b"
 
 
 def ask_gemma(prompt: str):
-    """
-    Normal text generation.
-    """
 
     payload = {
         "model": MODEL,
         "prompt": prompt,
-        "stream": False
+        "stream": False,
+        "keep_alive": "30m"
     }
 
     response = requests.post(
@@ -28,9 +26,6 @@ def ask_gemma(prompt: str):
 
 
 def ask_gemma_with_image(image_path: str, prompt: str):
-    """
-    Gemma Vision.
-    """
 
     with open(image_path, "rb") as image:
         image_base64 = base64.b64encode(image.read()).decode("utf-8")
@@ -39,7 +34,8 @@ def ask_gemma_with_image(image_path: str, prompt: str):
         "model": MODEL,
         "prompt": prompt,
         "images": [image_base64],
-        "stream": False
+        "stream": False,
+        "keep_alive": "30m"
     }
 
     response = requests.post(
