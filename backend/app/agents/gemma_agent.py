@@ -3,16 +3,15 @@ import base64
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
-MODEL = "gemma3:4b"
+VISION_MODEL = "gemma4:e4b"
 
 
 def ask_gemma(prompt: str):
 
     payload = {
-        "model": MODEL,
+        "model": VISION_MODEL,
         "prompt": prompt,
-        "stream": False,
-        "keep_alive": "30m"
+        "stream": False
     }
 
     response = requests.post(
@@ -25,17 +24,23 @@ def ask_gemma(prompt: str):
     return response.json()["response"]
 
 
-def ask_gemma_with_image(image_path: str, prompt: str):
+def ask_gemma_with_images(image_paths, prompt):
 
-    with open(image_path, "rb") as image:
-        image_base64 = base64.b64encode(image.read()).decode("utf-8")
+    encoded_images = []
+
+    for image_path in image_paths:
+
+        with open(image_path, "rb") as image:
+
+            encoded_images.append(
+                base64.b64encode(image.read()).decode("utf-8")
+            )
 
     payload = {
-        "model": MODEL,
+        "model": VISION_MODEL,
         "prompt": prompt,
-        "images": [image_base64],
-        "stream": False,
-        "keep_alive": "30m"
+        "images": encoded_images,
+        "stream": False
     }
 
     response = requests.post(

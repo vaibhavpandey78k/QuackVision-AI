@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  quackvision-backend:
+    build:
+      context: .
+
+    container_name: quackvision-backend
+
+    ports:
+      - "8000:8000"
+
+    restart: unless-stopped
+
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000

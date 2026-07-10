@@ -12,58 +12,26 @@ def load_timeline(timeline_file: str):
 def build_prompt(data):
 
     prompt = f"""
-You are QuackVision AI, a multimodal video understanding assistant.
+You are QuackVision AI.
 
-Analyze the following video using Speech, Vision and OCR together.
+Analyze the video using:
 
-VIDEO INFORMATION
-
-Video Name:
-{data["video_name"]}
-
-Frames:
-{data["frames"]}
-
-Keyframes:
-{data["keyframes"]}
-
-Detected Language:
-{data["detected_language"]}
+Speech:
+{data["speech"]}
 
 Visual Context:
 {data["visual_context"]}
 
-Speech Transcript:
-{data["speech"]}
-
-OCR Text:
+OCR:
 {chr(10).join(data["ocr"])}
 
-TASK
+Instructions:
 
-Understand the complete story instead of describing individual frames.
-
-Reasoning Priority:
-1. Speech (primary)
-2. Vision
-3. OCR
-
-Rules:
-
-- If speech clearly explains the story, let it dominate.
-- Use vision to improve atmosphere, actions, emotions and setting.
-- Use OCR only for important subtitles, signs or quotes.
-- Never let a single image contradict the spoken meaning.
-- If speech is missing, rely mainly on vision.
-
-Generate natural social-media captions.
-
-Avoid robotic phrases such as:
-depicts, portrays, illustrates, visual representation, fragmented transcript, insufficient information.
-
-OUTPUT
-
-Return ONLY valid JSON.
+• Understand the complete story.
+• Speech is the primary source.
+• Vision should improve context, actions and emotions.
+• OCR only supports important visible text.
+• If speech is missing, rely on vision.
 
 Generate:
 
@@ -75,43 +43,42 @@ Generate:
 - primary_source
 - reasoning_mode
 
-- formal_caption (professional, LinkedIn style)
+- formal_caption
+- sarcastic_caption
+- humorous_tech_caption
+- humorous_nontech_caption
 
-- sarcastic_caption (clever, relatable)
+- summary (2 sentences)
 
-- humorous_tech_caption (programmer humour)
+- exactly 20 hashtags
 
-- humorous_nontech_caption (meme style)
+- exactly 15 SEO keywords
 
-- summary (2-3 sentences)
+If speech is not English,
+understand it first,
+then write fluent English captions.
 
-- hashtags (exactly 20)
-
-- keywords (exactly 15)
-
-If the spoken language is not English, first understand its meaning and then write fluent English captions while preserving the original emotion.
-
-JSON FORMAT
+Return ONLY this JSON.
 
 {{
-    "detected_language": "",
-    "video_category": "",
-    "overall_mood": "",
-    "confidence_score": 0,
+  "detected_language":"",
+  "video_category":"",
+  "overall_mood":"",
+  "confidence_score":0,
 
-    "primary_source": "",
-    "reasoning_mode": "",
+  "primary_source":"",
+  "reasoning_mode":"",
 
-    "formal_caption": "",
-    "sarcastic_caption": "",
-    "humorous_tech_caption": "",
-    "humorous_nontech_caption": "",
+  "formal_caption":"",
+  "sarcastic_caption":"",
+  "humorous_tech_caption":"",
+  "humorous_nontech_caption":"",
 
-    "summary": "",
+  "summary":"",
 
-    "hashtags": [],
+  "hashtags":[],
 
-    "keywords": []
+  "keywords":[]
 }}
 """
 
@@ -123,6 +90,8 @@ def analyze_video(timeline_file):
     data = load_timeline(timeline_file)
 
     prompt = build_prompt(data)
+
+    print(f"\n📝 Prompt Size : {len(prompt)} characters")
 
     ai_response = ask_gemma(prompt)
 

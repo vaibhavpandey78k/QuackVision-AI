@@ -1,12 +1,16 @@
 from pathlib import Path
+import time
 
-from app.agents.gemma_agent import ask_gemma_with_image
+from app.agents.gemma_agent import ask_gemma_with_images
+
+
+MAX_KEYFRAMES = 7
 
 
 def build_visual_context(keyframes_folder: str):
     """
-    Uses Gemma 3 Vision to understand
-    the important keyframes of a video.
+    Uses Gemma 4 Vision to understand multiple keyframes
+    from the same video in ONE inference call.
     """
 
     folder = Path(keyframes_folder)
@@ -16,43 +20,72 @@ def build_visual_context(keyframes_folder: str):
     if not images:
         return "No keyframes detected."
 
-    descriptions = []
+    # Select evenly spaced keyframes across the whole video
+    if len(images) <= MAX_KEYFRAMES:
+        selected_images = images
+    else:
+        total = len(images)
 
-    # Analyze at most 5 representative keyframes
-    for image in images[:5]:
+        indices = [
+            round(i * (total - 1) / (MAX_KEYFRAMES - 1))
+            for i in range(MAX_KEYFRAMES)
+        ]
 
-        print(f"🖼️ Analyzing {image.name}")
+        selected_images = [images[i] for i in indices]
 
-        prompt = """
-You are an expert video understanding AI.
+    print("\n📸 Selected Keyframes:")
+    for img in selected_images:
+        print(f"   • {img.name}")
 
-Analyze this image as one frame of a short video.
+    print(f"\n🖼️ Sending {len(selected_images)} keyframes together to Gemma 4...\n")
 
-Describe:
+    prompt = """
+You are QuackVision AI.
 
-1. Main subject
-2. Actions happening
-3. Environment
-4. Objects
-5. Emotions
-6. Mood
-7. Visual style
-8. Important details useful for generating social media captions.
+You are given chronologically ordered keyframes from the SAME video.
 
-Keep the answer under 80 words.
+First understand each keyframe internally.
+
+Then infer the complete story across the sequence.
+
+Focus on:
+
+• Story progression
+• Main subject
+• Important actions
+• Environment
+• Objects
+• Emotions
+• Overall mood
+• Camera style
+• Creator intent
+
+Return ONE coherent visual understanding.
+
+Keep the response under 120 words.
+
+Do NOT mention frame numbers.
+Do NOT describe each image separately.
+Write one combined understanding of the entire video.
 """
 
-        try:
+    start = time.perf_counter()
 
-            answer = ask_gemma_with_image(
-                str(image),
-                prompt
-            )
+    try:
 
-            descriptions.append(answer.strip())
+        response = ask_gemma_with_images(
+            [str(img) for img in selected_images],
+            prompt
+        )
 
-        except Exception as e:
+        print(
+            f"🟢 Multi-frame Vision : {time.perf_counter() - start:.2f} sec"
+        )
 
-            print(f"Vision Error: {e}")
+        return response.strip()
 
-    return "\n\n".join(descriptions)
+    except Exception as e:
+
+        print(f"❌ Vision Error: {e}")
+
+        return "Vision understanding failed."

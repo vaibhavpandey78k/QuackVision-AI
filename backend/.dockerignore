@@ -1,0 +1,16 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+uploads/
+outputs/
+transcript.txt
+
+.git
+.gitignore
+
+node_modules/
+
+.env
