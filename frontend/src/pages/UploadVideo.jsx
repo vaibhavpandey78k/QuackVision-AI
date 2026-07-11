@@ -10,7 +10,7 @@ import DownloadButtons from "../components/DownloadButtons";
 import Footer from "../components/Footer";
 import VideoPreview from "../components/VideoPreview";
 import InsightsPanel from "../components/InsightsPanel";
-import "../styles/welcome.css";
+import "../Styles/welcome.css";
 
 function UploadVideo() {
 
