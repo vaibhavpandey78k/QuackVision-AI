@@ -1,18 +1,26 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
-# Install FFmpeg and other required system libraries
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    libgl1 \
-    libglib2.0-0 \
-    && rm -rf /var/lib/apt/lists/*
+# Install FFmpeg
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
 
+# Copy requirements first
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip
+RUN python -m pip install --upgrade pip
 
+# Install dependencies
+RUN python -m pip install \
+    --default-timeout=1000 \
+    --retries=20 \
+    --no-cache-dir \
+    -r requirements.txt
+
+# Copy the remaining source code
 COPY . .
 
 EXPOSE 8000
