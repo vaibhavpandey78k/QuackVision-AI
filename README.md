@@ -293,7 +293,7 @@ docker compose up
 
 The modern landing page introduces QuackVision AI and highlights its multimodal AI capabilities.
 
-![Landing Page](screenshots/Hero.png)
+![Landing Page](quackvision/Hero.png)
 
 ---
 
@@ -301,7 +301,7 @@ The modern landing page introduces QuackVision AI and highlights its multimodal 
 
 Upload videos through a clean drag-and-drop interface supporting multiple formats.
 
-![Upload Video](screenshots/Generator.png)
+![Upload Video](quackvision/Generator.png)
 
 ---
 
@@ -319,15 +319,15 @@ The AI pipeline visualizes every processing stage in real time, including:
 
 ### Processing Started
 
-![Processing 1](screenshots/loadingScreen.png)
+![Processing 1](quackvision/loadingScreen.png)
 
 ### Audio Extraction
 
-![Processing 2](screenshots/loadingscreen_02.png)
+![Processing 2](quackvision/loadingscreen_02.png)
 
 ### Story Understanding
 
-![Processing 3](screenshots/loadingscreen_03.png)
+![Processing 3](quackvision/loadingscreen_03.png)
 
 ---
 
@@ -335,7 +335,7 @@ The AI pipeline visualizes every processing stage in real time, including:
 
 The uploaded video is analyzed together with AI-generated insights such as confidence score, language detection, mood analysis, and video category.
 
-![Video Analysis](screenshots/video_preview.png)
+![Video Analysis](quackvision/video_preview.png)
 
 ---
 
@@ -348,7 +348,7 @@ QuackVision AI automatically generates multiple caption styles suitable for diff
 - 🤖 Tech Humor Caption
 - 😂 Meme Caption
 
-![Caption Studio](screenshots/caption_01.png)
+![Caption Studio](quackvision/caption_01.png)
 
 ---
 
@@ -360,7 +360,7 @@ Along with captions, the platform generates:
 - Smart Hashtags
 - SEO Keywords
 
-![AI Insights](screenshots/caption_02.png)
+![AI Insights](quackvision/caption_02.png)
 
 ---
 
@@ -373,7 +373,7 @@ Export generated content as:
 - 📦 JSON
 - 📑 PDF
 
-![Export](screenshots/downloadable_1.png)
+![Export](quackvision/downloadable_1.png)
 
 
 
